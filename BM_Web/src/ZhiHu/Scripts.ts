@@ -62,7 +62,7 @@ const chatType = (question: string, types: string[]) =>
 	`你是一位百货公司的老板，有位顾客在网上提出了这个问题：“${question}”，你手上拥有的货物有以下几个种类：'${types.join("'，'")}'，你只能从中选择一个种类向他推销货物，请选择和该问题相关度最高的一种，你会选择哪个呢？请在回答时仅仅告诉我你会选择哪个种类，不需要其他任何文字和标点符号。`
 
 const chatQuestion = (products: string[], question: string, type: string) => `
-	请你以写一篇四百字的文章（注意：文章中不能使用“首先”，“其次”等连接词）去回答这个问题：'${question}'，你的文章内容要严格按照"${Promote[type]}"的开头，并从以下产品选择和问题最相关的一个产品向他推荐：'${products.join(',')}'`
+	请你写一篇文章（注意：文章中不能使用“首先”，“其次”等连接词）去回答这个问题：'${question}'，你的文章内容要严格按照以下的"${Promote[type]}"，并从以下产品选择和问题较为相关的几个产品向他推荐，每个产品写三百字左右。产品名单如下：'${products.join(',')}'`
 
 function publishAnswer(answerText: string, selectedProduct: string) {
 	return (`
