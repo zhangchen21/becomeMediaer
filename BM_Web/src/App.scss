@@ -1,0 +1,16 @@
+.App {
+    display: flex;
+    flex-direction: column;
+
+    button {
+        border-radius: 8px;
+    }
+
+    .nav {
+        width: 100vw;
+        height: 48px;
+        position: fixed;
+        top: 0;
+        opacity: 1;
+    }
+}

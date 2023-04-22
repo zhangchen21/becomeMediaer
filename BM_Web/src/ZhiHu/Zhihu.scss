@@ -1,0 +1,77 @@
+$primary-color: #0078d4;
+$secondary-color: #f3f2f1;
+
+.Zhihu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 50vw;
+      
+        .section {
+            width: 80%;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        
+            h2 {
+                margin-bottom: 10px;
+                font-size: 25px;
+                font-weight: bold;
+                color: $primary-color;
+                text-align: center;
+            }
+        
+            .content {
+                margin-bottom: 20px;
+        
+                p {
+                font-size: 18px;
+                line-height: 1.5em;
+                color: #333;
+                }
+            }
+        
+            .actionArea {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 10px;
+                .actionBtn {
+                    margin-left: 10px;
+                }
+                .questionArea {
+                    height: 50px;
+                }
+            }
+        
+            .steps {
+                margin-top: 20px;
+                width: 95%;
+                margin-bottom: 20px;
+            }
+            }
+        }
+      
+    .textarea {
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 45vw;
+        margin-bottom: 10px;
+    
+        font-size: 15px;
+        line-height: 20px;
+        font-weight: 400;
+    }
+}
