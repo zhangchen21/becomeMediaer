@@ -12,18 +12,18 @@ type ZhihuData = {
 }
 
 const { TextArea } = Input;
+const name = "知乎";
 
 function Zhihu() {
   const [question, setQuestion] = useState<string>('');
   const [answer, setAnswer] = useState<string>('');
+  const [products, setProducts] = useState<string[]>([]);
 
   const [currentstep, setCurrentstep] = useState<number>(0);
   const [status, setStatus] = useState<any>("In Process");
 
   const [zhihuData, setZhihuData] = useState<ZhihuData>({});
-  const [products, setProducts] = useState<string[]>([]);
 
-  const name = "知乎";
   const steps =  [
       {
         title: "获取回答",
@@ -53,9 +53,10 @@ function Zhihu() {
           setCurrentstep(3);
           const Question = ZhihuScript.chatQuestion(products, question, type);
           console.log(Question)
-          const answer = await getDataFromGpt(Question, 2048, 0.4);
+          // const answer = await getDataFromGpt(Question, 2048, 0.4);
+          const answer = "";
 
-          setAnswer(answer.trim());
+          setAnswer(Question.trim());
           setCurrentstep(4);
         }
       },
