@@ -8,12 +8,12 @@ const WarnStr = `系统监测到您的`;
 
 // 定义目标网址
 const url = 'https://www.zhihu.com/question/';
-let currentVaildQuestionNumber = 597843646;
+let currentVaildQuestionNumber = 597873147;
 let currentQuestionNumber = currentVaildQuestionNumber;
 let failCount = 0;
 let warnCount = 0;
-let isRunning = true;
-let skippedQuestionNumbers = [];
+// let isRunning = true;
+// let skippedQuestionNumbers = [];
 
 requestURL();
 
@@ -52,21 +52,21 @@ function requestURL() {
           currentQuestionNumber = currentVaildQuestionNumber;
 
           // Try after 10 minutes
-          currentQuestionNumber ++;
+          currentQuestionNumber += 2;
           setTimeout(() => {
             isRunning = true;
             requestURL();
           }, 1000 * 60 * 10);
 
-          // Try skipped questions
-          log("Start Trying Skipped Question Numbers!");
-          isRunning = false;
-          handleSkippedQuestions();
+          // // Try skipped questions
+          // log("Start Trying Skipped Question Numbers!");
+          // isRunning = false;
+          // handleSkippedQuestions();
 
           return;
         }
 
-        currentQuestionNumber ++;
+        currentQuestionNumber += 2;
         requestURL();
         return;
       }
@@ -80,7 +80,7 @@ function requestURL() {
       failCount = 0;
       currentVaildQuestionNumber = currentQuestionNumber;
       // Barely a success follow a success
-      skippedQuestionNumbers.push(currentQuestionNumber + 1);
+      // skippedQuestionNumbers.push(currentQuestionNumber + 1);
       currentQuestionNumber += 2;
       requestURL();
     })  
@@ -106,19 +106,19 @@ function log(log) {
   })
 }
 
-function handleSkippedQuestions() {
-  setTimeout(() => {
-    if(skippedQuestionNumbers.length === 0) {
-      log("Have Finished Skipped Question Numbers!");
-      return;
-    }
-    request.get(url + skippedQuestionNumbers.shift(), (error, response, body) => {
-      if(body.includes(MoneyStr)) {
-        // Add URL
-        fs.appendFileSync("src/Pages/Zhihu/moneyURLs.txt", url + number + "\n");
-      }
-    });
+// function handleSkippedQuestions() {
+//   setTimeout(() => {
+//     if(skippedQuestionNumbers.length === 0) {
+//       log("Have Finished Skipped Question Numbers!");
+//       return;
+//     }
+//     request.get(url + skippedQuestionNumbers.shift(), (error, response, body) => {
+//       if(body.includes(MoneyStr)) {
+//         // Add URL
+//         fs.appendFileSync("src/Pages/Zhihu/moneyURLs.txt", url + number + "\n");
+//       }
+//     });
 
-    !isRunning && handleSkippedQuestions();
-  }, 500)
-}
+//     !isRunning && handleSkippedQuestions();
+//   }, 500)
+// }
