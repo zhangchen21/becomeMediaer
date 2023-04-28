@@ -8,7 +8,7 @@ const WarnStr = `系统监测到您的`;
 
 // 定义目标网址
 const url = 'https://www.zhihu.com/question/';
-let currentVaildQuestionNumber = 597873147;
+let currentVaildQuestionNumber = 597874587;
 let currentQuestionNumber = currentVaildQuestionNumber;
 let failCount = 0;
 let warnCount = 0;
@@ -47,12 +47,12 @@ function requestURL() {
         log(`Request ${URL} has no question`);
         failCount ++;
 
-        if(failCount > 20) {
+        if(failCount > 200) {
           // There is no new question currently, reset
           currentQuestionNumber = currentVaildQuestionNumber;
 
           // Try after 10 minutes
-          currentQuestionNumber += 2;
+          currentQuestionNumber += 3;
           setTimeout(() => {
             isRunning = true;
             requestURL();
@@ -66,7 +66,7 @@ function requestURL() {
           return;
         }
 
-        currentQuestionNumber += 2;
+        currentQuestionNumber += 3;
         requestURL();
         return;
       }
@@ -81,7 +81,7 @@ function requestURL() {
       currentVaildQuestionNumber = currentQuestionNumber;
       // Barely a success follow a success
       // skippedQuestionNumbers.push(currentQuestionNumber + 1);
-      currentQuestionNumber += 2;
+      currentQuestionNumber += 3;
       requestURL();
     })  
   }, 500)
