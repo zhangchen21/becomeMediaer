@@ -1,0 +1,9 @@
+.listItem {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+
+    &:hover {
+        color: #0078d4;
+    }
+}

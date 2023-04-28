@@ -17,27 +17,26 @@ $secondary-color: #f3f2f1;
         align-items: center;
         height: 400px;
         width: 1000px;
+        position: relative;
 
         .question {
             width: 800px;
             margin-top: -50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         
-            h2 {
+            .title {
+                width: 500px;
                 margin-bottom: 10px;
                 font-size: 40px;
                 font-weight: bold;
                 color: $primary-color;
                 text-align: center;
-            }
-        
-            .content {
-                margin-bottom: 20px;
-        
-                p {
-                font-size: 18px;
-                line-height: 1.5em;
-                color: #333;
-                }
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
         
             .actionArea {
@@ -45,6 +44,7 @@ $secondary-color: #f3f2f1;
                 justify-content: space-between;
                 align-items: center;
                 margin-bottom: 10px;
+                width: 800px;
 
                 .actionBtn {
                     height: 41.6px;
@@ -72,10 +72,10 @@ $secondary-color: #f3f2f1;
         .result {
             display: flex;
             min-height: 200px;
+            width: 1150px;
             justify-content: space-around;
 
             .productsArea {
-                width: 350px;
                 margin-right: 10px;
                 border-radius: 6px;
                 background-color: #fff;
@@ -83,20 +83,23 @@ $secondary-color: #f3f2f1;
                 height: "300px";
                 overflow-y: "auto";
             }
+        }     
+        
+        .answerarea {
+            width: 800px;
+            height: 800px;
+            background-color: #fff;
 
-            .textarea {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 800px;
-                margin-bottom: 10px;
-            
-                font-size: 15px;
-                line-height: 20px;
-                font-weight: 400;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        
+            font-size: 15px;
+            line-height: 20px;
+            font-weight: 400;
 
-                border-radius: 6px;
-            }
-        }        
+            border-radius: 6px;
+        }
     }
 }

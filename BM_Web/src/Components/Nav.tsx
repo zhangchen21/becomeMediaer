@@ -14,8 +14,13 @@ const items: MenuProps['items'] = [
     icon: <HomeOutlined />,
   },
   {
-    label: '知乎',
-    key: '/zhihu',
+    label: '好物推荐',
+    key: '/zhihu/goods',
+    icon: <ZhihuOutlined />,
+  },
+  {
+    label: '红包问题',
+    key: '/zhihu/redenvelope',
     icon: <ZhihuOutlined />,
   },
 ];

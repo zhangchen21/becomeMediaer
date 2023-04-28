@@ -19,7 +19,12 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <Route path="/" element={<App />} >
           <Route path="" element={<Navigate replace to="homepage" />} />
           <Route path="homepage" element={<HomePage />} />
-          <Route path="zhihu" element={<Zhihu />} />    
+          <Route path="zhihu" element={<Zhihu />} >  
+            <Route
+              path="*"
+              element={<Zhihu />}
+            />             
+          </Route> 
           <Route
             path="*"
             element={

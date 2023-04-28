@@ -1,22 +1,28 @@
-import React, { FC, useState } from 'react';
+import { FC } from 'react';
 
 interface ImageContainer {
-    product: string
+    products: string[],
+    setImage: any
 }
 
-const ImageContainer: FC<ImageContainer> = ({product}) => {
-  // 定义一个函数，用来生成bing搜索的URL
-  const getBingSearchURL = () => {
-    return `https://www.bing.com/images/search?q=${product}`;
-  };
+const ImageContainer: FC<ImageContainer> = ({products, setImage}) => {
+
+  const handleIframeLoad = (iframeID: string, index: number) => {
+    const img = document.getElementById(iframeID).contentWindow.document.getElementsByClassName("mimg rms_img").[0];
+
+    setImage((imgs: string[]) => imgs.splice(index, 1, img));
+  }
 
   return (
     <div>
         {
-           product &&
-            <>
-                <iframe src={getBingSearchURL()} width="100%" height="300" />             
-            </>
+           products.map((product, index) => 
+            <iframe 
+              id={product}
+              src={`https://www.bing.com/images/search?q=${product}`} 
+              onLoad={this.handleIframeLoad}
+            />            
+           )
         }
     </div>
   );
