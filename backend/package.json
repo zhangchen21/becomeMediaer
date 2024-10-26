@@ -1,0 +1,10 @@
+{
+  "type": "module",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "mammoth": "^1.8.0",
+    "random-item": "^4.0.1",
+    "request": "^2.88.2"
+  }
+}

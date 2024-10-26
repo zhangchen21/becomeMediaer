@@ -1,6 +1,7 @@
 import { Input, Form, Button } from "antd";
 import { useState } from "react";
 import ReactQuill from "react-quill";
+import { convertToHtml } from 'mammoth'; 
 import 'react-quill/dist/quill.snow.css'
 import './index.scss';
 import { test } from "./components/test";
@@ -9,27 +10,13 @@ const TouTiaoNew = () => {
 	const [form] = Form.useForm();
 
 	const getData = async () => {
-		// GitHub的原始文件API端点格式  
-		// https://raw.githubusercontent.com/<owner>/<repo>/<branch>/<path-to-file>  
-		const url = 'https://raw.githubusercontent.com/zhangchen21/becomeMediaer/master/.gitignore';  
+		const url = 'http://localhost:3000/random-docx';  
 			
-		fetch(url)  
-			.then(response => {  
-				if (!response.ok) {  
-					throw new Error(`HTTP error! Status: ${response.status}`);  
-				}  
-				return response.text();  
-			})  
-			.then(text => {  
-				return text;  
-			})  
-			.catch(error => {  
-				console.error('请求文件出错:', url, error);  
-			});
-		return {
-			title: "最被低估的延寿运动！很多人都锻炼错了",
-			content: test
+		const res = await(await fetch(url)).json();
+		if(res?.code === 0) {
+			return res.data;
 		}
+		return {}
 	}
 
 	const onSubmit = async () => {
@@ -47,7 +34,7 @@ const TouTiaoNew = () => {
 					{/* <Input.TextArea autoSize={{minRows: 20, maxRows: 20}}/> */}
 					<ReactQuill theme="snow" className="myEditor"/>
 				</Form.Item>
-				<Button type="primary" onClick={onSubmit}>提交</Button>
+				<Button type="primary" onClick={onSubmit} style={{margin: '0 auto'}}>获取</Button>
 			</Form>
 		</div>
 	)

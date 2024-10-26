@@ -78,7 +78,7 @@ function requestURL() {
 
       
       fs.writeFile(
-        `src/Pages/Zhihu/hot.html`, 
+        `./Pages/Zhihu/hot.html`, 
         body, 
         (err) => {
           if (err) return;
