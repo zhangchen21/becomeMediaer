@@ -23,6 +23,16 @@ const items: MenuProps['items'] = [
     key: '/zhihu/redenvelope',
     icon: <ZhihuOutlined />,
   },
+  {
+    label: '头条新闻',
+    key: '/toutiao/redenvelope',
+    icon: <ZhihuOutlined />,
+  },
+  {
+    label: '头条文章',
+    key: '/toutiaonew',
+    icon: <ZhihuOutlined />,
+  },
 ];
 
 const Navbar: FC= () => {

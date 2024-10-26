@@ -8,6 +8,8 @@ import {
 } from "react-router-dom";
 import HomePage from "./Home/HomePage";
 import Zhihu from "./ZhiHu/Zhihu";
+import Toutiao from "./Toutiao/Toutiao";
+import ToutiaoNew from "./TouTiao_new/index"
 import App from './App';
 import zhCN from "antd/lib/locale/zh_CN";
 import "antd/dist/antd.css";
@@ -23,6 +25,18 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
             <Route
               path="*"
               element={<Zhihu />}
+            />             
+          </Route> 
+          <Route path="toutiao" element={<Toutiao />} >  
+            <Route
+              path="*"
+              element={<Toutiao />}
+            />             
+          </Route> 
+          <Route path="toutiaonew" element={<ToutiaoNew />} >  
+            <Route
+              path="*"
+              element={<ToutiaoNew />}
             />             
           </Route> 
           <Route

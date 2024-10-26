@@ -1,4 +1,4 @@
-import API_KEY from './Secret_donot_push';
+// import API_KEY from './Secret_donot_push';
 
 export const getDataFromGpt = async (prompt: string, max_tokens: number, temperature: number): Promise<string> => {
 	console.log(prompt);
@@ -10,7 +10,7 @@ export const getDataFromGpt = async (prompt: string, max_tokens: number, tempera
 		headers: {
 			"content-Type": "application/json",
 			// API_KEY
-      Authorization: "Bearer " + API_KEY,
+      Authorization: "Bearer " + "",
 		},
 		body: JSON.stringify({
 			prompt,
