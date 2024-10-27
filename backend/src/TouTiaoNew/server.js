@@ -6,6 +6,9 @@ import fs from 'fs/promises';
 import { convertToHtml } from 'mammoth';  
 import { default as randomItem } from 'random-item'; // 假设 random-item 支持 ESM，或者你可能需要找到一个替代库  
 import cors from 'cors'; 
+import { getTitle } from './api/api.js';
+
+const FLAG = "。。"; // 以此作为文章分割符号
 
 // 获取当前模块的 URL 并转换为文件路径  
 const __filename = fileURLToPath(import.meta.url);
@@ -37,21 +40,29 @@ app.get('/random-docx', async (req, res) => {
     }  
       
     // 随机选择一个 .docx 文件  
-    const randomFile = randomItem(docxFiles);  
-    const filePath = path.join(directoryPath, randomFile);  
+    const randomFile1 = randomItem(docxFiles);
+    const randomFile2 = randomItem(docxFiles.filter(file => file !== randomFile1));
+
+    const filePath1 = path.join(directoryPath, randomFile1);  
+    const filePath2 = path.join(directoryPath, randomFile2);  
       
     // 读取文件内容  
-    const fileBuffer = await fs.readFile(filePath);  
+    const fileBuffer1 = await fs.readFile(filePath1);  
+    const fileBuffer2 = await fs.readFile(filePath2);  
       
     // 使用 Mammoth.js 将 docx 转换为 HTML  
-    const result = await convertToHtml(fileBuffer);  
+    const result1 = await convertToHtml(fileBuffer1);  
+    const result2 = await convertToHtml(fileBuffer2);  
       
     // 提取 HTML 内容  
-    const content = result.value; // 或者 result.html，取决于 Mammoth 的版本和 API  
-      
+    const content1 = result1.value.split(FLAG)[0]; //取前半段
+    const content2 = result2.value.split(FLAG)[1]; //取后半段
+
+    // 设置标题
+    const title = await getTitle(randomFile1.replace('.docx', '')); // 从文件名中提取标题（去掉 .docx 后缀），拼接文章的标题取作为前半段的文章的标题
+
     // 设置响应数据  
-    const title = randomFile.replace('.docx', ''); // 从文件名中提取标题（去掉 .docx 后缀）  
-    const responseData = { code: 0, data: { title, content } };  
+    const responseData = { code: 0, data: { title, content: content1 + content2 } };  
       
     // 发送响应  
     res.json(responseData);  
@@ -60,7 +71,7 @@ app.get('/random-docx', async (req, res) => {
     console.error('Error reading or converting file:', error);  
     res.status(500).json({ code: 2, message: 'Error reading or converting file' });  
   }  
-});  
+});
   
 // 启动服务器  
 app.listen(port, () => {  

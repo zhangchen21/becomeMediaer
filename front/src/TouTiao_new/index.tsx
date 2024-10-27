@@ -1,23 +1,11 @@
 import { Input, Form, Button } from "antd";
-import { useState } from "react";
 import ReactQuill from "react-quill";
-import { convertToHtml } from 'mammoth'; 
 import 'react-quill/dist/quill.snow.css'
 import './index.scss';
-import { test } from "./components/test";
+import { getData } from "./api/api";
 
 const TouTiaoNew = () => {
 	const [form] = Form.useForm();
-
-	const getData = async () => {
-		const url = 'http://localhost:3000/random-docx';  
-			
-		const res = await(await fetch(url)).json();
-		if(res?.code === 0) {
-			return res.data;
-		}
-		return {}
-	}
 
 	const onSubmit = async () => {
 		const data = await getData();
