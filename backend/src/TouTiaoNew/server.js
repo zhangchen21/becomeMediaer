@@ -20,9 +20,10 @@ const port = 3000;
 app.use(cors());
   
 app.get('/random-docx', async (req, res) => {  
+  const targetDir = req.query.target;  
   try {  
     // 指定 docx 文件的目录  
-    const directoryPath = path.join(__dirname, 'contents');  
+    const directoryPath = path.join(__dirname, 'contents/' + targetDir);  
       
     // 注意：由于 import.meta.url 返回的是一个 URL 形式的路径，我们需要将其转换为文件系统路径  
     // 这里使用 replace('file://', '') 是为了从 URL 中移除 'file://' 前缀，并添加 '..' 来回到父目录（因为 import.meta.url 指向当前文件的位置）  
@@ -55,8 +56,8 @@ app.get('/random-docx', async (req, res) => {
     const result2 = await convertToHtml(fileBuffer2);  
       
     // 提取 HTML 内容  
-    const content1 = result1.value.split(FLAG)[0]; //取前半段
-    const content2 = result2.value.split(FLAG)[1]; //取后半段
+    const content1 = result1.value.split(FLAG)[0]; // 取前半段
+    const content2 = result2.value.split(FLAG)[1]; // 取后半段
 
     // 设置标题
     const title = await getTitle(randomFile1.replace('.docx', '')); // 从文件名中提取标题（去掉 .docx 后缀），拼接文章的标题取作为前半段的文章的标题
