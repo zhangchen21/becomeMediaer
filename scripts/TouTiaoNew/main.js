@@ -1,7 +1,7 @@
 const { spawn } = require('child_process');
 
 // 定义要执行的命令和目录
-const tasks = [
+const preTasks = [
   {
     cmd: 'npm',
     args: ['run', 'dev'],
@@ -12,12 +12,16 @@ const tasks = [
     args: ['server.js'],
     cwd: '../../backend/src/TouTiaoNew'
   },
+
+];
+
+const jobTasks = [
   {
     cmd: 'node',
     args: ['schedule.js'],
     cwd: './'
   }
-];
+]
 
 // 启动任务的函数
 function startTask(task) {
@@ -47,10 +51,14 @@ function startTask(task) {
 }
 
 // 并行启动所有任务
-Promise.all(tasks.map(startTask))
-  .then(() => {
-    console.log('所有进程已启动');
-  })
+Promise.all(preTasks.map(startTask))
   .catch((error) => {
     console.error('启动进程时发生错误:', error);
   });
+
+setTimeout(() => {
+  Promise.all(jobTasks.map(startTask))
+  .catch((error) => {
+    console.error('启动进程时发生错误:', error);
+  });
+}, 5000)
