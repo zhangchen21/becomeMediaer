@@ -19,11 +19,12 @@ const TouTiaoNew = () => {
 
 	return (
 		<div className="page">
-			<Form className="form" form={form} initialValues={{target: "cars"}}>
+			<Form className="form" form={form} initialValues={{target: "media"}}>
 				<Form.Item label="目标" name="target">
 					<Radio.Group buttonStyle="solid" >
-						<Radio.Button value="cars">汽车</Radio.Button>
+						<Radio.Button value="media">赚钱</Radio.Button>
 						<Radio.Button value="health">养生</Radio.Button>
+						<Radio.Button value="cars">汽车</Radio.Button>
 					</Radio.Group>
 				</Form.Item>
 				<Form.Item label="标题" name="title">
