@@ -72,7 +72,7 @@ app.get('/random-docx', async (req, res) => {
         titleFilePath = filePath2;
     }
 
-    const title = await getTitle(titleFilePath.replace('.docx', ''));
+    const title = await getTitle(titleFilePath.replace('.docx', ''));// 从文件名中提取标题（去掉 .docx 后缀），拼接文章的标题取作为前半段的文章的标题
     // 设置响应数据  
     const responseData = { code: 0, data: { title, content:selectedContent } };  
       
