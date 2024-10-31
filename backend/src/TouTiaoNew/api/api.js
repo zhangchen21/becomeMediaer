@@ -2,7 +2,7 @@ export async function getTitle(text) {
   // 请求参数
   const model = 'glm-4'; // 替换为您的模型编码  
   const messages = [  
-    { role: "user", content: `请将这个标题进行一些修饰性的改动，不改变原有意思：
+    { role: "user", content: `请将这个标题改动成网络爆款文案，不改变原有意思：
       ————————————————————
       ${text}
       ————————————————————
