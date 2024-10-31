@@ -60,9 +60,9 @@ Promise.all(syncTasks.map(startTask))
 .catch((error) => {
   console.error('启动进程时发生错误:', error);
 });
-setInterval(() => {
-  Promise.all(syncTasks.map(startTask))
-  .catch((error) => {
-    console.error('启动进程时发生错误:', error);
-  });
-}, 1000 * 4)
+// setInterval(() => {
+//   Promise.all(syncTasks.map(startTask))
+//   .catch((error) => {
+//     console.error('启动进程时发生错误:', error);
+//   });
+// }, 1000 * 4)
