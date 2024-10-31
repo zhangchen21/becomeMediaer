@@ -1,4 +1,4 @@
-// server.js 或你选择的任何文件名，确保它是 .js 或 .mjs 扩展名（如果未设置 "type": "module"）  
+// nodemon 启动
 import path from 'path';  
 import { fileURLToPath } from 'url';  
 import express from 'express';  

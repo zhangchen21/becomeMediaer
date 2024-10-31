@@ -15,14 +15,6 @@ const preTasks = [
 
 ];
 
-const jobTasks = [
-  {
-    cmd: 'nodemon',
-    args: ['schedule.js'],
-    cwd: './'
-  }
-]
-
 // 启动任务的函数
 function startTask(task) {
   return new Promise((resolve, reject) => {
@@ -55,10 +47,3 @@ Promise.all(preTasks.map(startTask))
   .catch((error) => {
     console.error('启动进程时发生错误:', error);
   });
-
-setTimeout(() => {
-  Promise.all(jobTasks.map(startTask))
-  .catch((error) => {
-    console.error('启动进程时发生错误:', error);
-  });
-}, 5000)
