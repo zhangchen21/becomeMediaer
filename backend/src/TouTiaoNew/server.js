@@ -50,6 +50,9 @@ app.get('/random-docx', async (req, res) => {
     // 读取文件内容  
     const fileBuffer1 = await fs.readFile(filePath1);  
     const fileBuffer2 = await fs.readFile(filePath2);  
+    
+    // 打印日志
+    console.log(`【Server】- 选择文件：${randomFile1}, ${randomFile2}`);
       
     // 使用 Mammoth.js 将 docx 转换为 HTML  
     const result1 = await convertToHtml(fileBuffer1);  

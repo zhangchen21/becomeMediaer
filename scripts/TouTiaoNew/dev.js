@@ -12,8 +12,15 @@ const preTasks = [
     args: ['server.js'],
     cwd: '../../backend/src/TouTiaoNew'
   },
-
 ];
+
+const syncTasks = [
+  {
+    cmd: 'git pull origin master',
+    args: [],
+    cwd: './'
+  }
+]
 
 // 启动任务的函数
 function startTask(task) {
@@ -23,15 +30,15 @@ function startTask(task) {
     const child = spawn(cmd, args, { cwd, shell: true });
 
     child.stdout.on('data', (data) => {
-      console.log(`stdout (${cwd}): ${data}`);
+      console.log(`进程${cmd}: stdout (${cwd}): ${data}`);
     });
 
     child.stderr.on('data', (data) => {
-      console.error(`stderr (${cwd}): ${data}`);
+      console.error(`进程${cmd}: stderr (${cwd}): ${data}`);
     });
 
     child.on('close', (code) => {
-      console.log(`进程在目录 ${cwd} 退出，退出码 ${code}`);
+      console.log(`进程${cmd}在目录 ${cwd} 结束`);
       resolve();
     });
 
@@ -47,3 +54,11 @@ Promise.all(preTasks.map(startTask))
   .catch((error) => {
     console.error('启动进程时发生错误:', error);
   });
+
+// 同步一次代码
+setTimeout(() => {
+  Promise.all(syncTasks.map(startTask))
+  .catch((error) => {
+    console.error('启动进程时发生错误:', error);
+  });
+}, 1000 * 5)

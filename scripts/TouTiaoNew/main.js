@@ -23,6 +23,13 @@ const jobTasks = [
   }
 ]
 
+const syncTasks = [
+  {
+    cmd: 'git pull origin master',
+    cwd: './'
+  }
+]
+
 // 启动任务的函数
 function startTask(task) {
   return new Promise((resolve, reject) => {
@@ -31,20 +38,20 @@ function startTask(task) {
     const child = spawn(cmd, args, { cwd, shell: true });
 
     child.stdout.on('data', (data) => {
-      console.log(`stdout (${cwd}): ${data}`);
+      console.log(`【进程${cmd}】stdout (${cwd}): ${data}`);
     });
 
     child.stderr.on('data', (data) => {
-      console.error(`stderr (${cwd}): ${data}`);
+      console.error(`【进程${cmd}】stderr (${cwd}): ${data}`);
     });
 
     child.on('close', (code) => {
-      console.log(`进程在目录 ${cwd} 退出，退出码 ${code}`);
+      console.log(`【进程${cmd}】在目录 ${cwd} 结束`);
       resolve();
     });
 
     child.on('error', (error) => {
-      console.error(`启动进程出错: ${error}`);
+      console.error(`【进程${cmd}】启动出错: ${error}`);
       reject(error);
     });
   });
@@ -62,3 +69,11 @@ setTimeout(() => {
     console.error('启动进程时发生错误:', error);
   });
 }, 5000)
+
+// 每 4 小时同步一次代码
+setTimeout(() => {
+  Promise.all(syncTasks.map(startTask))
+  .catch((error) => {
+    console.error('启动进程时发生错误:', error);
+  });
+}, 1000 * 60 * 60 * 4)
