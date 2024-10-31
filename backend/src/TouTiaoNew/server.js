@@ -56,14 +56,25 @@ app.get('/random-docx', async (req, res) => {
     const result2 = await convertToHtml(fileBuffer2);  
       
     // 提取 HTML 内容  
-    const content1 = result1.value.split(FLAG)[0]; // 取前半段
-    const content2 = result2.value.split(FLAG)[1]; // 取后半段
+    const content1Front = result1.value.split(FLAG)[0]; // 取前半段
+    const content1Back = result1.value.split(FLAG)[1];  // 取后半段
+    const content2Front = result2.value.split(FLAG)[0]; // 取前半段
+    const content2Back = result2.value.split(FLAG)[1];  // 取后半段
 
-    // 设置标题
-    const title = await getTitle(randomFile1.replace('.docx', '')); // 从文件名中提取标题（去掉 .docx 后缀），拼接文章的标题取作为前半段的文章的标题
+    // 随机选择拼接方式
+    const randomIndex = Math.floor(Math.random() * 2); // 随机选择0或1
+    let selectedContent, titleFilePath;
+    if (randomIndex === 0) {
+        selectedContent = content1Front + content2Back;
+        titleFilePath = filePath1;
+    } else {
+        selectedContent = content1Back + content2Front;
+        titleFilePath = filePath2;
+    }
 
+    const title = await getTitle(titleFilePath.replace('.docx', ''));
     // 设置响应数据  
-    const responseData = { code: 0, data: { title, content: content1 + content2 } };  
+    const responseData = { code: 0, data: { title, content:selectedContent } };  
       
     // 发送响应  
     res.json(responseData);  
