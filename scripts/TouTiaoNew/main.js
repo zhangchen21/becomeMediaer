@@ -26,6 +26,7 @@ const jobTasks = [
 const syncTasks = [
   {
     cmd: 'git pull origin master',
+    args: [],
     cwd: './'
   }
 ]
