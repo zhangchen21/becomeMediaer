@@ -56,9 +56,13 @@ Promise.all(preTasks.map(startTask))
   });
 
 // 同步一次代码
-setTimeout(() => {
+Promise.all(syncTasks.map(startTask))
+.catch((error) => {
+  console.error('启动进程时发生错误:', error);
+});
+setInterval(() => {
   Promise.all(syncTasks.map(startTask))
   .catch((error) => {
     console.error('启动进程时发生错误:', error);
   });
-}, 1000 * 5)
+}, 1000 * 4)
