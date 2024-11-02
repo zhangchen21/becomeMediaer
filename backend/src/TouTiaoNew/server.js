@@ -3,7 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';  
 import express from 'express';  
 import fs from 'fs/promises';  
-import { convertToHtml } from 'mammoth';  
+import { convertToHtml, extractRawText } from 'mammoth';  
 import { default as randomItem } from 'random-item'; // 假设 random-item 支持 ESM，或者你可能需要找到一个替代库  
 import cors from 'cors'; 
 import { getTitle } from './api/api.js';
@@ -40,51 +40,51 @@ app.get('/random-docx', async (req, res) => {
       return res.status(404).json({ code: 1, message: 'No .docx files found' });  
     }  
       
-    // 随机选择一个 .docx 文件  
-    const randomFile1 = randomItem(docxFiles);
-    const randomFile2 = randomItem(docxFiles.filter(file => file !== randomFile1));
+    // 随机选择 n (2 <= n <= 3) 个 .docx 文件  
+    const random = Math.ceil(Math.random() * 2 + 1);
+    const randomFiles = docxFiles.map(_ => randomItem(docxFiles)).slice(0, random);
+    const filePaths = randomFiles.map(file => path.join(directoryPath, file));
 
-    const filePath1 = path.join(directoryPath, randomFile1);  
-    const filePath2 = path.join(directoryPath, randomFile2);  
+    console.log(`【读取文件】 读取 ${filePaths.join("; ")}`)
       
-    // 读取文件内容  
-    const fileBuffer1 = await fs.readFile(filePath1);  
-    const fileBuffer2 = await fs.readFile(filePath2);  
-    
-    // 打印日志
-    console.log(`【Server】- 选择文件：${randomFile1}, ${randomFile2}`);
-      
-    // 使用 Mammoth.js 将 docx 转换为 HTML  
-    const result1 = await convertToHtml(fileBuffer1);  
-    const result2 = await convertToHtml(fileBuffer2);  
-      
-    // 提取 HTML 内容  
-    const content1Front = result1.value.split(FLAG)[0]; // 取前半段
-    const content1Back = result1.value.split(FLAG)[1];  // 取后半段
-    const content2Front = result2.value.split(FLAG)[0]; // 取前半段
-    const content2Back = result2.value.split(FLAG)[1];  // 取后半段
+    // 使用 Mammoth.js 将 docx 转换为 HTML
+    // results的格式 : [{ filePath, content }]
+    const results = [];
+    for (const filePath of filePaths) {  
+      try {  
+          const content = await convertToHtml({ path: filePath });
+          results.push({ 
+            filePath, 
+            content 
+          });
+      } catch (error) {  
+          console.error(`【文件解析错误】 解析 ${filePath} 中出现：`, error);  
+      }
+   }
 
     // 随机选择拼接方式
-    const randomIndex = Math.floor(Math.random() * 2); // 随机选择0或1
-    let selectedContent, titleFilePath;
-    if (randomIndex === 0) {
-        selectedContent = content1Front + content2Back;
-        titleFilePath = filePath1;
-    } else {
-        selectedContent = content1Back + content2Front;
-        titleFilePath = filePath2;
-    }
+    let title = '';  
+    let content = '';  
+    for (const result of results) {  
+      // 从第 1 个随机的文件内容中使用 AI 生成标题
+      if (results.indexOf(result) === 0) {  
+        const txt = (await extractRawText({ path: result.filePath }))?.value;
+        title = await getTitle(txt);  
+      }  
+    
+      // 拼接内容，由于以上都是随机过程，因此这一步检查下是否有重复内容，有的话不进行拼接
+      const newContent = randomItem(result.content.value.split(FLAG));
+      if(!content.includes(newContent)) {
+        content += newContent;  
+      }
+    }  
 
-    const title = await getTitle(titleFilePath.replace('.docx', ''));// 从文件名中提取标题（去掉 .docx 后缀），拼接文章的标题取作为前半段的文章的标题
     // 设置响应数据  
-    const responseData = { code: 0, data: { title, content:selectedContent } };  
-      
-    // 发送响应  
+    const responseData = { code: 0, data: { title, content } };  
     res.json(responseData);  
-  } catch (error) {  
-    // 处理错误并发送错误响应  
-    console.error('Error reading or converting file:', error);  
-    res.status(500).json({ code: 2, message: 'Error reading or converting file' });  
+  } catch (error) {   
+    console.error('【服务端错误】 ', error);  
+    res.status(500).json({ code: 2, message: '服务端错误' });  
   }  
 });
   
