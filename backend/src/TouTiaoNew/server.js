@@ -47,35 +47,24 @@ app.get('/random-docx', async (req, res) => {
 
     console.log(`【读取文件】 读取 ${filePaths.join("; ")}`)
       
-    // 使用 Mammoth.js 将 docx 转换为 HTML
-    // results的格式 : [{ filePath, content }]
-    const results = [];
-    for (const filePath of filePaths) {  
-      try {  
-          const content = await convertToHtml({ path: filePath });
-          results.push({ 
-            filePath, 
-            content 
-          });
-      } catch (error) {  
-          console.error(`【文件解析错误】 解析 ${filePath} 中出现：`, error);  
-      }
-   }
-
-    // 随机选择拼接方式
     let title = '';  
     let content = '';  
-    for (const result of results) {  
-      // 从第 1 个随机的文件内容中使用 AI 生成标题
-      if (results.indexOf(result) === 0) {  
-        const txt = (await extractRawText({ path: result.filePath }))?.value;
-        title = await getTitle(txt);  
-      }  
-    
-      // 拼接内容，由于以上都是随机过程，因此这一步检查下是否有重复内容，有的话不进行拼接
-      const newContent = randomItem(result.content.value.split(FLAG));
-      if(!content.includes(newContent)) {
-        content += newContent;  
+    for (const filePath of filePaths) {  
+      try {  
+        // 从第 1 个随机的文件内容中使用 AI 生成标题
+        if (filePaths.indexOf(filePath) === 0) {  
+          const text = await extractRawText({ path: filePath });
+          title = await getTitle(text.value);  
+        }  
+
+        const html = await convertToHtml({ path: filePath });
+        // 拼接内容，由于以上都是随机过程，因此这一步检查下是否有重复内容，有的话不进行拼接
+        const newContent = randomItem(html.value.split(FLAG));
+        if(!content.includes(newContent)) {
+          content += newContent;  
+        }
+      } catch (error) {  
+        console.error(`【文件解析错误】 解析 ${filePath} 中出现：`, error);  
       }
     }  
 
