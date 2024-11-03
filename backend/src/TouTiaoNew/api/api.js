@@ -2,7 +2,7 @@ export async function getTitle(text) {
   // 请求参数
   const model = 'glm-4-plus'; // 替换为您的模型编码  
   const messages = [  
-    { role: "user", content: `你是一个今日头条的爆款文章写手，请你对以下文章内容写一个网络爆款标题：
+    { role: "user", content: `你是一个今日头条的干货分享型文章写手，请你对以下文章内容写一个总结式的标题：
       ————————————————————
       ${text}
       ————————————————————
@@ -21,7 +21,7 @@ export async function getTitle(text) {
     model: model,  
     messages: messages,  
     api_key: api_key, 
-    temperature: 0.6
+    temperature: 0.9
   };
   const res = await(await fetch('https://open.bigmodel.cn/api/paas/v4/chat/completions', {  
     method: 'POST',  
