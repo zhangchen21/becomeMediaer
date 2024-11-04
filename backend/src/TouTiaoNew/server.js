@@ -41,7 +41,8 @@ app.get('/random-docx', async (req, res) => {
     }  
       
     // 随机选择 n (2 <= n <= 3) 个 .docx 文件  
-    const random = Math.ceil(Math.random() * 2 + 1);
+    // const random = Math.ceil(Math.random() * 2 + 1);
+    const random = 2;
     const randomFiles = docxFiles.map(_ => randomItem(docxFiles)).slice(0, random);
     const filePaths = randomFiles.map(file => path.join(directoryPath, file));
 
