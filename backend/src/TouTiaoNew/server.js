@@ -9,6 +9,7 @@ import cors from 'cors';
 import { getTitle } from './api/api.js';
 
 const FLAG = "。。"; // 以此作为文章分割符号
+const prifix = '<b>大家好，我是晨说。爱财，财就会爱你！->>点击关注<<-，每天带你学习赚钱思维，分享最新财经动向！</b><br /><br />'
 
 // 获取当前模块的 URL 并转换为文件路径  
 const __filename = fileURLToPath(import.meta.url);
@@ -24,10 +25,6 @@ app.get('/random-docx', async (req, res) => {
   try {  
     // 指定 docx 文件的目录  
     const directoryPath = path.join(__dirname, 'contents/' + targetDir);  
-      
-    // 注意：由于 import.meta.url 返回的是一个 URL 形式的路径，我们需要将其转换为文件系统路径  
-    // 这里使用 replace('file://', '') 是为了从 URL 中移除 'file://' 前缀，并添加 '..' 来回到父目录（因为 import.meta.url 指向当前文件的位置）  
-    // 根据你的项目结构，你可能需要调整这个路径  
   
     // 读取目录内容  
     const files = await fs.readdir(directoryPath, { withFileTypes: true });  
@@ -49,7 +46,7 @@ app.get('/random-docx', async (req, res) => {
     console.log(`【读取文件】 读取 ${filePaths.join("; ")}`)
       
     let title = '';  
-    let content = '';  
+    let content = targetDir === 'media' ? prifix : '';  // 带上前缀
     for (const filePath of filePaths) {  
       try {  
         // 从第 1 个随机的文件内容中使用 AI 生成标题
@@ -62,6 +59,7 @@ app.get('/random-docx', async (req, res) => {
         // 拼接内容，由于以上都是随机过程，因此这一步检查下是否有重复内容，有的话不进行拼接
         const newContent = randomItem(html.value.split(FLAG));
         if(!content.includes(newContent)) {
+          content += '<br />';  // 换行
           content += newContent;  
         }
       } catch (error) {  
