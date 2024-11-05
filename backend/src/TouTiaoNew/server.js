@@ -56,12 +56,15 @@ app.get('/random-docx', async (req, res) => {
         }  
 
         const html = await convertToHtml({ path: filePath });
-        // 拼接内容，由于以上都是随机过程，因此这一步检查下是否有重复内容，有的话不进行拼接
-        const newContent = randomItem(html.value.split(FLAG));
-        if(!content.includes(newContent)) {
-          content += '<br />';  // 换行
-          content += newContent;  
+        // 拼接内容，由于以上都是随机过程，因此这一步检查下是否有重复内容，有的话就重新随机
+        let newContent = randomItem(html.value.split(FLAG));
+        while(content.includes(newContent)) {
+          newContent = randomItem(html.value.split(FLAG));
         }
+
+        content += '<br />';  // 换行
+        content += newContent;  
+
       } catch (error) {  
         console.error(`【文件解析错误】 解析 ${filePath} 中出现：`, error);  
       }
