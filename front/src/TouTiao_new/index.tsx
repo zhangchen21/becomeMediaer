@@ -1,8 +1,8 @@
-import { Input, Form, Button, Radio } from "antd";
+import { Input, Form, Button, Radio, Space } from "antd";
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css'
 import './index.scss';
-import { getData } from "./api/api";
+import { getData, testAI } from "./api/api";
 import { useState } from "react";
 
 const TouTiaoNew = () => {
@@ -33,7 +33,10 @@ const TouTiaoNew = () => {
 				<Form.Item label="内容" name="content">
 					<ReactQuill theme="snow" className="myEditor"/>
 				</Form.Item>
-				<Button type="primary" onClick={onSubmit} style={{margin: '0 auto'}} loading={loading}>获取</Button>
+				<Space>
+					<Button type="primary" onClick={onSubmit} style={{margin: '0 auto'}} loading={loading}>获取</Button>
+					<Button onClick={() => testAI()}>测试</Button>
+				</Space>
 			</Form>
 		</div>
 	)

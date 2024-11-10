@@ -1,13 +1,8 @@
-export async function getTitle(text) {
+export async function getAI(text) {
   // 请求参数
   const model = 'glm-4-plus'; // 替换为您的模型编码  
   const messages = [  
-    { role: "user", content: `你是一个今日头条的干货分享型文章写手，请你阅读以下文章内容，并写一个疑问句来引出：
-      ————————————————————
-      ${text}
-      ————————————————————
-      要求：1、标题不超过30字，且返回内容的格式为：纯净的疑问句内容字符串
-      ` }  
+    { role: "user", content: text}  
   ];  
 
   const api_key = '823259dac055de1e7eb23f2d99befbb5.SkOxW64tEPLNjhNI'; // 替换为您的唯一请求标识符，或省略以使用默认生成的  

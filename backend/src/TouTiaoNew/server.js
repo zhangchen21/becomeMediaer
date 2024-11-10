@@ -6,10 +6,11 @@ import fs from 'fs/promises';
 import { convertToHtml, extractRawText } from 'mammoth';  
 import { default as randomItem } from 'random-item'; // 假设 random-item 支持 ESM，或者你可能需要找到一个替代库  
 import cors from 'cors'; 
-import { getTitle } from './api/api.js';
+import { getAI } from './api/api.js';
+import { getNews } from './common/index.js';
 
 const FLAG = "。。"; // 以此作为文章分割符号
-const prifix = '<b>大家好，我是晨说。爱财，财就会爱你！->>点击关注<<-，每天带你学习赚钱思维，分享最新财经动向！</b><br /><br />'
+const prifix = '<b>大家好，我是晨说。爱财，财就会爱你！->>点击关注<<-，每天分享最新财经动向, 带你学习赚钱思维！</b><br /><br />'
 
 // 获取当前模块的 URL 并转换为文件路径  
 const __filename = fileURLToPath(import.meta.url);
@@ -46,16 +47,36 @@ app.get('/random-docx', async (req, res) => {
     console.log(`【读取文件】 读取 ${filePaths.join("; ")}`)
       
     let title = '';  
-    let content = targetDir === 'media' ? prifix : '';  // 带上前缀
+    let content = '';
+
+    let newsTitle = '';
+    if(targetDir === 'media') {
+      // 添加前缀
+      content += prifix;
+
+      // 添加新闻内容
+      const { title, text } = await getNews();
+      newsTitle = title;
+      content += text;
+    }
+
     for (const filePath of filePaths) {  
       try {  
+        const [text, html] = await Promise.all([
+          await extractRawText({ path: filePath }), 
+          await convertToHtml({ path: filePath }),
+        ]);
+
         // 从第 1 个随机的文件内容中使用 AI 生成标题
         if (filePaths.indexOf(filePath) === 0) {  
-          const text = await extractRawText({ path: filePath });
-          title = await getTitle(text.value);  
+          title = await getAI(`你是一个今日头条的干货分享型文章写手，请你阅读以下文章内容，并写一个标题来引出：
+            ————————————————————
+            ${newsTitle || text.value}
+            ————————————————————
+            要求：1、标题不超过30字，且返回内容的格式为：纯净的疑问句内容字符串
+          ` );
         }  
 
-        const html = await convertToHtml({ path: filePath });
         // 拼接内容，由于以上都是随机过程，因此这一步检查下是否有重复内容，有的话就重新随机
         let newContent = randomItem(html.value.split(FLAG));
         while(content.includes(newContent)) {

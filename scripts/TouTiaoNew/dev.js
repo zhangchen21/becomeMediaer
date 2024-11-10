@@ -8,7 +8,7 @@ const preTasks = [
     cwd: '../../front'
   },
   {
-    cmd: 'nodemon',
+    cmd: 'nodemon --inspect',
     args: ['server.js'],
     cwd: '../../backend/src/TouTiaoNew'
   },
