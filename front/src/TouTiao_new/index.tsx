@@ -12,9 +12,14 @@ const TouTiaoNew = () => {
 
 	const onSubmit = async () => {
 		setLoading(true);
-		const data = await getData(target);
-		form.setFieldsValue(data);
-		setLoading(false);
+		try {
+			const data = await getData(target);
+			form.setFieldsValue(data);
+		} catch (e) {
+
+		} finally {
+			setLoading(false);
+		}
 	}
 
 	return (
