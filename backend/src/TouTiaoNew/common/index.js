@@ -31,12 +31,12 @@ export async function getNews () {
 
     const shouldSkip = [
       article.querySelector('style'),
+      article.querySelector('script'),
       article.querySelector('blockquote'),
       article.querySelector('.hqimg_related'),
     ]
 
     const shouldBreak = [
-      article.querySelector('script'),
       article.querySelector('#app-kaihu-stock'),
       article.querySelector('.appendQr_wrap'),
       article.querySelector('.app-kaihu-qr'),
