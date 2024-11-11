@@ -4,13 +4,8 @@ const moment = require('moment');
 // !!!!启动前准备，打开KeymouseGo_v5_1_1-win，并打开浏览器，tab页依次为 LoaclHost、头条首页
 
 const minute = 1000 * 60;
-const time = minute * 60 * 3; // 设置定时任务，每隔10mins执行一次
-// 要执行的时间点（小时）  
-// const targetHours = [7, 9, 11, 15, 18, 21];  
-  
-// 前后随机 30 分钟的范围（分钟）  
-// const timeWindowMinutes = 30;  
-
+const time = minute * 30; // 设置定时任务
+const targetTimes = [7, 8, 11, 12, 15, 17, 18, 19, 21, 22]
 
 // 分功能
 const tasks = [
@@ -31,34 +26,10 @@ let index = 0;
 // 开始
 start();
 setInterval(() => {
-  start();
+  if(targetTimes.includes(moment().hour())) {
+    start();
+  }
 }, time)
-
-// 检查并执行任务  
-// function checkAndExecuteTask() {  
-//   const now = moment();   
-  
-//   for (const hour of targetHours) {  
-//     const targetTime = moment().hour(hour).minute(30).second(0);  
-  
-//     // 计算前后 30 分钟的时间范围  
-//     const windowStartTime = targetTime.clone().subtract(timeWindowMinutes, 'minutes');  
-//     const windowEndTime = targetTime.clone().add(timeWindowMinutes, 'minutes');  
-  
-//     if (now.isBetween(windowStartTime, windowEndTime, null, '[]')) {  
-//       start();  
-//       // 避免同个时间内多次执行
-//       setTimeout(() => {
-//         checkAndExecuteTask()
-//       , Math.floor(60 * minute)})  
-//       return; // 只执行一次  
-//     }  
-//   }  
-  
-//   setTimeout(() => {
-//     checkAndExecuteTask()
-//   , Math.floor((Math.random(30) + 30) * minute)})  
-// }  
 
 function start() {
   if(index >= tasks.length) {
@@ -85,5 +56,4 @@ function job (args) {
     }); 
 }
   
-// checkAndExecuteTask();
 console.log(`Task scheduled to run.`);
