@@ -79,16 +79,17 @@ export async function getNews () {
     const AIPromises = [];
     shouldAI.forEach((p, index) => {
       const innerText = p.textContent;
-
-      const promise = new Promise(async (resolve) => {
-        // console.log("改写前：", innerText)
-        const newText = await getAI(`请用改变描述方式、用词、句式、适当的删除和增加内容等方式，大幅度改写以下内容："${innerText}"。（要求：返回内容的格式为：纯净的内容字符串）`);
-        // console.log("改写后：", newText)
-        p.innerHTML = newText;
-        resolve();
-      })
-
-      AIPromises.push(promise);
+      if(innerText) {
+        const promise = new Promise(async (resolve) => {
+          // console.log("改写前：", innerText)
+          const newText = await getAI(`请用改变描述方式、用词、句式、适当的删除和增加内容、对重点内容使用html的<b></b>标签包裹以加粗等方式，大幅度改写以下内容："${innerText}"。（要求：返回内容的格式为：纯净的内容字符串）`);
+          // console.log("改写后：", newText)
+          p.innerHTML = newText;
+          resolve();
+        })
+  
+        AIPromises.push(promise);
+      }
     })
     await Promise.all(AIPromises);
 
