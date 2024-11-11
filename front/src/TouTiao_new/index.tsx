@@ -16,7 +16,8 @@ const TouTiaoNew = () => {
 			const data = await getData(target);
 			form.setFieldsValue(data);
 		} catch (e) {
-
+			// 重新请求
+			onSubmit();
 		} finally {
 			setLoading(false);
 		}
