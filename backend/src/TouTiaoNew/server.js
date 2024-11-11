@@ -10,7 +10,7 @@ import { getAI } from './api/api.js';
 import { getNews } from './common/index.js';
 
 const FLAG = "。。"; // 以此作为文章分割符号
-const prifix = '<b>大家好，我是晨说。->>点击关注<<-，每天分享最新财经动向, 带你学习赚钱思维！</b><br /><br />'
+const prifix = '<b>大家好，我是晨说。->>点击关注<<-，每天分享最新热点前沿, 带你学习赚钱思维！</b><br /><br />'
 
 // 获取当前模块的 URL 并转换为文件路径  
 const __filename = fileURLToPath(import.meta.url);
