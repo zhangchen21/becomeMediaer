@@ -4,8 +4,8 @@ const moment = require('moment');
 // !!!!启动前准备，打开KeymouseGo_v5_1_1-win，并打开浏览器，tab页依次为 LoaclHost、头条首页
 
 const minute = 1000 * 60;
-const time = minute * 30; // 设置定时任务
-const targetTimes = [7, 8, 11, 12, 15, 17, 18, 19, 21, 22]
+const time = minute * 60; // 设置定时任务
+const targetTimes = [7, 8, 12, 18, 19, 21]
 
 // 分功能
 const tasks = [
