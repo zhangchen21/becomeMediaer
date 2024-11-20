@@ -65,9 +65,9 @@ export async function getNews () {
       div.appendChild(currentNode);
 
       // 只保留到第一个 img 的内容
-      if (currentNode === SecondImgWrapper) {
-        break;
-      }
+      // if (currentNode === SecondImgWrapper) {
+      //   break;
+      // }
 
       // 移动到下一个兄弟节点
       currentNode = nextNode;
